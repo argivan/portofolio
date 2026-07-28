@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio of a Senior Fullstack Developer specializing in building high-performance, scalable web applications using Laravel, React, Node.js, and modern databases.">
+    <title>Creative Fullstack Developer | Portfolio</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+
+    <!-- Ambient Glow Effects -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    <div class="ambient-glow glow-3"></div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <i data-lucide="info" class="toast-icon"></i>
+        <span id="toast-message">Notification message here</span>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="#home" class="logo">
+                <span class="logo-accent">&lt;</span>Fullstack<span class="logo-accent">.Dev /&gt;</span>
+            </a>
+            
+            <nav class="nav-links">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#timeline" class="nav-link">Experience</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </nav>
+
+            <div class="nav-actions">
+                <button id="theme-toggle" class="icon-btn" aria-label="Toggle Theme">
+                    <i data-lucide="sun" class="sun-icon"></i>
+                    <i data-lucide="moon" class="moon-icon"></i>
+                </button>
+                <a href="#contact" class="btn btn-secondary nav-cta">Let's Talk</a>
+                <button id="mobile-menu-toggle" class="icon-btn mobile-toggle" aria-label="Toggle Navigation Menu">
+                    <i data-lucide="menu"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Menu -->
+    <div id="mobile-menu" class="mobile-menu">
+        <div class="mobile-menu-header">
+            <span class="logo">&lt;Fullstack.Dev /&gt;</span>
+            <button id="mobile-menu-close" class="icon-btn"><i data-lucide="x"></i></button>
+        </div>
+        <nav class="mobile-nav-links">
+            <a href="#home" class="mobile-nav-link">Home</a>
+            <a href="#about" class="mobile-nav-link">About</a>
+            <a href="#skills" class="mobile-nav-link">Skills</a>
+            <a href="#projects" class="mobile-nav-link">Projects</a>
+            <a href="#timeline" class="mobile-nav-link">Experience</a>
+            <a href="#contact" class="mobile-nav-link">Contact</a>
+            <a href="#contact" class="btn btn-primary mobile-cta">Let's Talk</a>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <canvas id="particle-canvas"></canvas>
+        <div class="container hero-container">
+            <div class="hero-content">
+                <div class="open-to-work-badge reveal-on-scroll">
+                    <span class="pulse-dot"></span>
+                    <span>Available for Freelance & Full-time Roles</span>
+                </div>
+                <h1 class="hero-title reveal-on-scroll">
+                    Crafting <span class="text-gradient">Innovative</span> & Scalable Digital Products
+                </h1>
+                <p class="hero-subtitle reveal-on-scroll">
+                    Hi, I'm a passionate Fullstack Developer. I build secure databases, highly performant backends, and beautiful, interactive frontends using modern frameworks.
+                </p>
+                <div class="typing-container reveal-on-scroll">
+                    <span class="typing-label">Specializing in:</span>
+                    <span id="typed-text" class="typed-text"></span><span class="cursor">|</span>
+                </div>
+                <div class="hero-actions reveal-on-scroll">
+                    <a href="#projects" class="btn btn-primary">
+                        <span>View Work</span>
+                        <i data-lucide="arrow-right"></i>
+                    </a>
+                    <a href="#contact" class="btn btn-secondary">
+                        <span>Get In Touch</span>
+                    </a>
+                </div>
+                <div class="hero-socials reveal-on-scroll">
+                    <a href="https://github.com" target="_blank" class="social-link" aria-label="GitHub"><i data-lucide="github"></i></a>
+                    <a href="https://linkedin.com" target="_blank" class="social-link" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
+                    <a href="https://twitter.com" target="_blank" class="social-link" aria-label="Twitter"><i data-lucide="twitter"></i></a>
+                    <a href="mailto:hello@example.com" class="social-link" aria-label="Email"><i data-lucide="mail"></i></a>
+                </div>
+            </div>
+            
+            <div class="hero-visual reveal-on-scroll">
+                <div class="hero-card glass">
+                    <div class="card-header">
+                        <div class="card-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span class="card-title">developer_profile.json</span>
+                    </div>
+                    <div class="card-body">
+                        <pre><code><span class="code-key">"name"</span>: <span class="code-val">"Your Name"</span>,
+<span class="code-key">"role"</span>: <span class="code-val">"Fullstack Developer"</span>,
+<span class="code-key">"experience"</span>: <span class="code-val">"5+ Years"</span>,
+<span class="code-key">"stack"</span>: {
+  <span class="code-key">"frontend"</span>: [<span class="code-val">"React"</span>, <span class="code-val">"Next.js"</span>, <span class="code-val">"Tailwind"</span>],
+  <span class="code-key">"backend"</span>: [<span class="code-val">"PHP Laravel"</span>, <span class="code-val">"Node.js"</span>, <span class="code-val">"Go"</span>],
+  <span class="code-key">"database"</span>: [<span class="code-val">"MySQL"</span>, <span class="code-val">"PostgreSQL"</span>, <span class="code-val">"Redis"</span>],
+  <span class="code-key">"devops"</span>: [<span class="code-val">"Docker"</span>, <span class="code-val">"AWS"</span>, <span class="code-val">"CI/CD"</span>]
+},
+<span class="code-key">"focus"</span>: <span class="code-val">"Clean Architecture & High Performance"</span></code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-down-indicator">
+            <a href="#about" aria-label="Scroll down">
+                <div class="mouse">
+                    <div class="wheel"></div>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- About & Stats Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="section-header reveal-on-scroll">
+                <span class="section-tagline">About Me</span>
+                <h2 class="section-title">Bridging Elegant Frontends with Robust Backends</h2>
+                <div class="section-underline"></div>
+            </div>
+
+            <div class="about-grid">
+                <div class="about-info reveal-on-scroll">
+                    <h3 class="about-subtitle">Who I Am</h3>
+                    <p class="about-text">
+                        I am a fullstack web developer driven by creating seamless digital experiences. With deep expertise in backend systems and a keen eye for frontend aesthetics, I build applications that are not only robust under load but also delight users with high responsiveness and intuitive navigation.
+                    </p>
+                    <p class="about-text">
+                        Whether designing database schemas, integrating third-party APIs, deploying containers to cloud environments, or orchestrating interactive dashboards, I maintain a solid commitment to clean code, scalability, and performance testing.
+                    </p>
+                    <div class="about-cta-container">
+                        <a href="#contact" class="btn btn-primary">Let's Collaborate</a>
+                        <button id="download-cv" class="btn btn-secondary">
+                            <i data-lucide="download"></i>
+                            <span>Download CV</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="about-stats-grid reveal-on-scroll">
+                    <div class="stat-card glass">
+                        <div class="stat-icon-wrapper">
+                            <i data-lucide="briefcase"></i>
+                        </div>
+                        <h4 class="stat-number" data-target="5">0</h4>
+                        <p class="stat-label">Years of Experience</p>
+                    </div>
+                    <div class="stat-card glass">
+                        <div class="stat-icon-wrapper">
+                            <i data-lucide="check-circle-2"></i>
+                        </div>
+                        <h4 class="stat-number" data-target="50">0</h4>
+                        <p class="stat-label">Projects Completed</p>
+                    </div>
+                    <div class="stat-card glass">
+                        <div class="stat-icon-wrapper">
+                            <i data-lucide="zap"></i>
+                        </div>
+                        <h4 class="stat-number" data-target="99">0</h4>
+                        <p class="stat-label">API Speed (ms avg)</p>
+                    </div>
+                    <div class="stat-card glass">
+                        <div class="stat-icon-wrapper">
+                            <i data-lucide="users"></i>
+                        </div>
+                        <h4 class="stat-number" data-target="20">0</h4>
+                        <p class="stat-label">Happy Clients</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills-section">
+        <div class="container">
+            <div class="section-header reveal-on-scroll">
+                <span class="section-tagline">My Toolbox</span>
+                <h2 class="section-title">Technical Expertise</h2>
+                <div class="section-underline"></div>
+            </div>
+
+            <div class="skills-filter-wrapper reveal-on-scroll">
+                <div class="skills-tabs">
+                    <button class="skills-tab-btn active" data-filter="all">All Tech</button>
+                    <button class="skills-tab-btn" data-filter="frontend">Frontend</button>
+                    <button class="skills-tab-btn" data-filter="backend">Backend</button>
+                    <button class="skills-tab-btn" data-filter="devops">DevOps & Database</button>
+                </div>
+            </div>
+
+            <div class="skills-grid">
+                <!-- Frontend Skills -->
+                <div class="skill-card glass reveal-on-scroll" data-category="frontend">
+                    <div class="skill-header">
+                        <div class="skill-icon-box react-icon"><i data-lucide="code-2"></i></div>
+                        <h3 class="skill-name">React / Next.js</h3>
+                    </div>
+                    <p class="skill-desc">Building rich SPAs and Server-Side Rendered (SSR) applications with reusable hooks.</p>
+                    <div class="skill-progress-bar">
+                        <div class="progress-fill" style="width: 90%"></div>
+                    </div>
+                    <span class="skill-percentage">90%</span>
+                </div>
+                <div class="skill-card glass reveal-on-scroll" data-category="frontend">
+                    <div class="skill-header">
+                        <div class="skill-icon-box js-icon"><i data-lucide="braces"></i></div>
+                        <h3 class="skill-name">JavaScript (ES6+)</h3>
+                    </div>
+                    <p class="skill-desc">Asynchronous programming, DOM manipulation, and modular architecture.</p>
+                    <div class="skill-progress-bar">
+                        <div class="progress-fill" style="width: 95%"></div>
+                    </div>
+                    <span class="skill-percentage">95%</span>
+                </div>
+                <div class="skill-card glass reveal-on-scroll" data-category="frontend">
+                    <div class="skill-header">
+                        <div class="skill-icon-box css-icon"><i data-lucide="palette"></i></div>
+                        <h3 class="skill-name">CSS / Tailwind CSS</h3>
+                    </div>
+                    <p class="skill-desc">Responsive layouts, keyframe animations, and design system variables.</p>
+                    <div class="skill-progress-bar">
+                        <div class="progress-fill" style="width: 88%"></div>
+                    </div>
+                    <span class="skill-percentage">88%</span>
+                </div>
+
+                <!-- Backend Skills -->
+                <div class="skill-card glass reveal-on-scroll" data-category="backend">
+                    <div class="skill-header">
+                        <div class="skill-icon-box php-icon"><i data-lucide="terminal"></i></div>
+                        <h3 class="skill-name">PHP / Laravel</h3>
+                    </div>
+                    <p class="skill-desc">MVC framework architecture, Eloquent ORM, RESTful API, queues, and security protocols.</p>
+                    <div class="skill-progress-bar">
+                        <div class="progress-fill" style="width: 92%"></div>
+                    </div>
+                    <span class="skill-percentage">92%</span>
+                </div>
+                <div class="skill-card glass reveal-on-scroll" data-category="backend">
+                    <div class="skill-header">
+                        <div class="skill-icon-box node-icon"><i data-lucide="server"></i></div>
+                        <h3 class="skill-name">Node.js / Express</h3>
+                    </div>
+                    <p class="skill-desc">High-throughput server environments, middleware integration, and event-driven architecture.</p>
+                    <div class="skill-progress-bar">
+                        <div class="progress-fill" style="width: 85%"></div>
+                    </div>
+                    <span class="skill-percentage">85%</span>
+                </div>
+                <div class="skill-card glass reveal-on-scroll" data-category="backend">
+                    <div class="skill-header">
+                        <div class="skill-icon-box go-icon"><i data-lucide="cpu"></i></div>
+                        <h3 class="skill-name">Go (Golang)</h3>
+                    </div>
+                    <p class="skill-desc">Concurrency, lightweight microservices, and speed optimization.</p>
+                    <div class="skill-progress-bar">
+                        <div class="progress-fill" style="width: 75%"></div>
+                    </div>
+                    <span class="skill-percentage">75%</span>
+                </div>
+
+                <!-- DevOps & Database Skills -->
+                <div class="skill-card glass reveal-on-scroll" data-category="devops">
+                    <div class="skill-header">
+                        <div class="skill-icon-box db-icon"><i data-lucide="database"></i></div>
+                        <h3 class="skill-name">PostgreSQL & MySQL</h3>
+                    </div>
+                    <p class="skill-desc">Relational databases, indexing, complex query optimization, and transaction handling.</p>
+                    <div class="skill-progress-bar">
+                        <div class="progress-fill" style="width: 88%"></div>
+                    </div>
+                    <span class="skill-percentage">88%</span>
+                </div>
+                <div class="skill-card glass reveal-on-scroll" data-category="devops">
+                    <div class="skill-header">
+                        <div class="skill-icon-box docker-icon"><i data-lucide="box"></i></div>
+                        <h3 class="skill-name">Docker & Containers</h3>
+                    </div>
+                    <p class="skill-desc">Multi-container setup, volume binding, registry management, and staging environments.</p>
+                    <div class="skill-progress-bar">
+                        <div class="progress-fill" style="width: 80%"></div>
+                    </div>
+                    <span class="skill-percentage">80%</span>
+                </div>
+                <div class="skill-card glass reveal-on-scroll" data-category="devops">
+                    <div class="skill-header">
+                        <div class="skill-icon-box cloud-icon"><i data-lucide="cloud"></i></div>
+                        <h3 class="skill-name">AWS & CI/CD Pipelines</h3>
+                    </div>
+                    <p class="skill-desc">Github Actions, automated deployment pipelines, S3 storage, and EC2 computing instances.</p>
+                    <div class="skill-progress-bar">
+                        <div class="progress-fill" style="width: 82%"></div>
+                    </div>
+                    <span class="skill-percentage">82%</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects-section">
+        <div class="container">
+            <div class="section-header reveal-on-scroll">
+                <span class="section-tagline">My Creations</span>
+                <h2 class="section-title">Featured Projects</h2>
+                <div class="section-underline"></div>
+            </div>
+
+            <div class="projects-filter-wrapper reveal-on-scroll">
+                <div class="project-filters">
+                    <button class="filter-btn active" data-filter="all">All Projects</button>
+                    <button class="filter-btn" data-filter="fullstack">Fullstack</button>
+                    <button class="filter-btn" data-filter="frontend">Frontend</button>
+                    <button class="filter-btn" data-filter="backend">Backend</button>
+                </div>
+            </div>
+
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <div class="project-card glass reveal-on-scroll" data-type="fullstack">
+                    <div class="project-visual-wrapper">
+                        <!-- Premium Interactive Vector Mockup of SaaS Dashboard -->
+                        <div class="project-svg-mockup bg-neon-purple">
+                            <svg viewBox="0 0 400 250" class="svg-mockup">
+                                <!-- Background grid -->
+                                <defs>
+                                    <pattern id="grid-pattern-1" width="20" height="20" patternUnits="userSpaceOnUse">
+                                        <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255, 255, 255, 0.03)" stroke-width="1"/>
+                                    </pattern>
+                                    <linearGradient id="gradient-line-1" x1="0" y1="0" x2="1" y2="0">
+                                        <stop offset="0%" stop-color="#bf5af2" />
+                                        <stop offset="50%" stop-color="#0a84ff" />
+                                        <stop offset="100%" stop-color="#5ac8fa" />
+                                    </linearGradient>
+                                </defs>
+                                <rect width="100%" height="100%" fill="#0a0a14"/>
+                                <rect width="100%" height="100%" fill="url(#grid-pattern-1)"/>
+                                
+                                <!-- Glass Sidebar Mockup -->
+                                <rect x="10" y="10" width="70" height="230" rx="8" fill="rgba(255, 255, 255, 0.05)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1"/>
+                                <circle cx="45" cy="30" r="12" fill="rgba(191, 90, 242, 0.3)" stroke="#bf5af2" stroke-width="1.5"/>
+                                <rect x="20" y="65" width="50" height="10" rx="3" fill="rgba(255,255,255,0.2)"/>
+                                <rect x="20" y="85" width="50" height="10" rx="3" fill="rgba(255,255,255,0.1)"/>
+                                <rect x="20" y="105" width="50" height="10" rx="3" fill="rgba(255,255,255,0.1)"/>
+                                <rect x="20" y="125" width="50" height="10" rx="3" fill="rgba(255,255,255,0.1)"/>
+                                
+                                <!-- Dashboard Content Main Glass Card -->
+                                <rect x="90" y="10" width="300" height="230" rx="8" fill="rgba(255, 255, 255, 0.02)" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1"/>
+                                
+                                <!-- Top Info Cards -->
+                                <rect x="105" y="25" width="80" height="45" rx="5" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.05)"/>
+                                <text x="115" y="42" fill="rgba(255,255,255,0.4)" font-size="8" font-family="Outfit">REVENUE</text>
+                                <text x="115" y="58" fill="#fff" font-size="12" font-weight="bold" font-family="Outfit">$345.6k</text>
+
+                                <rect x="195" y="25" width="80" height="45" rx="5" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.05)"/>
+                                <text x="205" y="42" fill="rgba(255,255,255,0.4)" font-size="8" font-family="Outfit">CONVERSION</text>
+                                <text x="205" y="58" fill="#5ac8fa" font-size="12" font-weight="bold" font-family="Outfit">4.8%</text>
+
+                                <rect x="285" y="25" width="90" height="45" rx="5" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.05)"/>
+                                <text x="295" y="42" fill="rgba(255,255,255,0.4)" font-size="8" font-family="Outfit">ACTIVE USERS</text>
+                                <text x="295" y="58" fill="#bf5af2" font-size="12" font-weight="bold" font-family="Outfit">8,412</text>
+
+                                <!-- Graph -->
+                                <rect x="105" y="85" width="270" height="140" rx="5" fill="rgba(255,255,255,0.01)" stroke="rgba(255,255,255,0.05)"/>
+                                <path d="M 120 200 Q 160 140, 200 160 T 280 110 T 360 130" fill="none" stroke="url(#gradient-line-1)" stroke-width="3" stroke-linecap="round"/>
+                                <path d="M 120 200 Q 160 140, 200 160 T 280 110 T 360 130 L 360 210 L 120 210 Z" fill="rgba(90, 200, 250, 0.05)"/>
+                                
+                                <!-- Floating Tooltip dot -->
+                                <circle cx="280" cy="110" r="5" fill="#5ac8fa" stroke="#fff" stroke-width="1.5"/>
+                                <rect x="288" y="90" width="70" height="20" rx="3" fill="#121225" stroke="rgba(255,255,255,0.1)"/>
+                                <text x="293" y="103" fill="#fff" font-size="7" font-family="Outfit">Revenue: $11.8k</text>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-meta">
+                            <span class="project-tag">Fullstack SaaS</span>
+                            <span class="project-stars"><i data-lucide="star"></i> 48</span>
+                        </div>
+                        <h3 class="project-title">Apex Analytics Hub</h3>
+                        <p class="project-description">
+                            A complex multi-tenant analytics dashboard. Features customizable metrics widgets, dynamic data charts, custom role-based authorizations, and scheduled PDF report generation.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-badge">Laravel</span>
+                            <span class="tech-badge">React</span>
+                            <span class="tech-badge">PostgreSQL</span>
+                            <span class="tech-badge">Redis</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com" target="_blank" class="project-link-btn" aria-label="GitHub Repo">
+                                <i data-lucide="github"></i>
+                                <span>Code</span>
+                            </a>
+                            <a href="https://example.com" target="_blank" class="project-link-btn" aria-label="Live Demo">
+                                <i data-lucide="external-link"></i>
+                                <span>Live Demo</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card glass reveal-on-scroll" data-type="frontend">
+                    <div class="project-visual-wrapper">
+                        <!-- Premium Interactive Vector Mockup of E-commerce Store -->
+                        <div class="project-svg-mockup bg-neon-blue">
+                            <svg viewBox="0 0 400 250" class="svg-mockup">
+                                <defs>
+                                    <pattern id="grid-pattern-2" width="20" height="20" patternUnits="userSpaceOnUse">
+                                        <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255, 255, 255, 0.03)" stroke-width="1"/>
+                                    </pattern>
+                                </defs>
+                                <rect width="100%" height="100%" fill="#0a0f1d"/>
+                                <rect width="100%" height="100%" fill="url(#grid-pattern-2)"/>
+                                
+                                <!-- Top Bar -->
+                                <rect x="20" y="15" width="360" height="30" rx="5" fill="rgba(255, 255, 255, 0.04)" stroke="rgba(255,255,255,0.06)"/>
+                                <circle cx="35" cy="30" r="6" fill="#ff453a"/>
+                                <rect x="55" y="25" width="80" height="10" rx="3" fill="rgba(255,255,255,0.2)"/>
+                                <circle cx="335" cy="30" r="8" fill="none" stroke="#fff" stroke-width="1.5"/>
+                                <circle cx="355" cy="30" r="8" fill="#0a84ff"/>
+                                
+                                <!-- Product Card Grid -->
+                                <!-- Product 1 -->
+                                <rect x="20" y="60" width="170" height="170" rx="6" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.05)"/>
+                                <!-- Abstract sneaker silhouette -->
+                                <path d="M 35 150 Q 80 150, 100 120 T 170 120 L 170 160 L 35 160 Z" fill="rgba(10, 132, 255, 0.15)"/>
+                                <path d="M 45 140 C 70 140, 90 110, 120 110 C 135 110, 150 120, 160 115" fill="none" stroke="#0a84ff" stroke-width="3" stroke-linecap="round"/>
+                                <rect x="35" y="175" width="100" height="10" rx="2" fill="rgba(255,255,255,0.2)"/>
+                                <rect x="35" y="195" width="40" height="10" rx="2" fill="rgba(255,255,255,0.1)"/>
+                                <text x="140" y="203" fill="#30d158" font-size="9" font-family="Outfit" font-weight="bold">$189</text>
+
+                                <!-- Product 2 -->
+                                <rect x="210" y="60" width="170" height="170" rx="6" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.05)"/>
+                                <!-- Abstract sneaker silhouette 2 -->
+                                <path d="M 225 150 Q 270 150, 290 120 T 360 120 L 360 160 L 225 160 Z" fill="rgba(255, 159, 10, 0.15)"/>
+                                <path d="M 235 140 C 260 140, 280 110, 310 110 C 325 110, 340 120, 350 115" fill="none" stroke="#ff9f0a" stroke-width="3" stroke-linecap="round"/>
+                                <rect x="225" y="175" width="100" height="10" rx="2" fill="rgba(255,255,255,0.2)"/>
+                                <rect x="225" y="195" width="40" height="10" rx="2" fill="rgba(255,255,255,0.1)"/>
+                                <text x="330" y="203" fill="#30d158" font-size="9" font-family="Outfit" font-weight="bold">$225</text>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-meta">
+                            <span class="project-tag">Frontend & E-Commerce</span>
+                            <span class="project-stars"><i data-lucide="star"></i> 32</span>
+                        </div>
+                        <h3 class="project-title">SneakerLab Online Store</h3>
+                        <p class="project-description">
+                            A highly interactive conceptual sneaker store. Designed with pixel-perfect responsive CSS Grid, custom filters, animated cart states, dark mode support, and stripe checkouts.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-badge">Next.js</span>
+                            <span class="tech-badge">Tailwind CSS</span>
+                            <span class="tech-badge">Framer Motion</span>
+                            <span class="tech-badge">Stripe</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com" target="_blank" class="project-link-btn" aria-label="GitHub Repo">
+                                <i data-lucide="github"></i>
+                                <span>Code</span>
+                            </a>
+                            <a href="https://example.com" target="_blank" class="project-link-btn" aria-label="Live Demo">
+                                <i data-lucide="external-link"></i>
+                                <span>Live Demo</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card glass reveal-on-scroll" data-type="backend">
+                    <div class="project-visual-wrapper">
+                        <!-- Premium Interactive Vector Mockup of Real-time Messaging -->
+                        <div class="project-svg-mockup bg-neon-green">
+                            <svg viewBox="0 0 400 250" class="svg-mockup">
+                                <defs>
+                                    <pattern id="grid-pattern-3" width="20" height="20" patternUnits="userSpaceOnUse">
+                                        <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255, 255, 255, 0.03)" stroke-width="1"/>
+                                    </pattern>
+                                </defs>
+                                <rect width="100%" height="100%" fill="#07130e"/>
+                                <rect width="100%" height="100%" fill="url(#grid-pattern-3)"/>
+                                
+                                <!-- Active Chat Screen layout -->
+                                <!-- Header -->
+                                <rect x="15" y="15" width="370" height="35" rx="6" fill="rgba(255, 255, 255, 0.04)" stroke="rgba(255,255,255,0.06)"/>
+                                <circle cx="35" cy="32" r="10" fill="#30d158"/>
+                                <text x="55" y="36" fill="#fff" font-size="9" font-family="Outfit" font-weight="600">Dev Collaboration Room</text>
+                                <circle cx="360" cy="32" r="3" fill="#30d158"/>
+                                <circle cx="367" cy="32" r="3" fill="#30d158"/>
+                                <circle cx="374" cy="32" r="3" fill="#30d158"/>
+                                
+                                <!-- Message Bubbles -->
+                                <!-- Sender Bubble -->
+                                <path d="M 25 70 H 220 A 10 10 0 0 1 230 80 V 100 A 10 10 0 0 1 220 110 H 35 A 10 10 0 0 1 25 100 V 70 Z" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+                                <rect x="35" y="80" width="170" height="6" rx="2" fill="rgba(255,255,255,0.3)"/>
+                                <rect x="35" y="93" width="120" height="6" rx="2" fill="rgba(255,255,255,0.15)"/>
+                                
+                                <!-- Recipient Bubble (Right Aligned) -->
+                                <path d="M 170 120 H 365 A 10 10 0 0 1 375 130 V 150 A 10 10 0 0 1 365 160 H 180 A 10 10 0 0 1 170 150 V 120 Z" fill="rgba(48, 209, 88, 0.15)" stroke="rgba(48, 209, 88, 0.3)" stroke-width="1"/>
+                                <rect x="180" y="130" width="170" height="6" rx="2" fill="rgba(48, 209, 88, 0.7)"/>
+                                <rect x="180" y="143" width="130" height="6" rx="2" fill="rgba(255,255,255,0.4)"/>
+                                
+                                <!-- Typing Indicator -->
+                                <circle cx="35" cy="185" r="3" fill="#30d158" opacity="0.6"/>
+                                <circle cx="43" cy="185" r="3" fill="#30d158" opacity="0.6"/>
+                                <circle cx="51" cy="185" r="3" fill="#30d158" opacity="0.6"/>
+                                
+                                <!-- Footer Input Box -->
+                                <rect x="15" y="200" width="370" height="35" rx="6" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)"/>
+                                <rect x="30" y="212" width="120" height="10" rx="3" fill="rgba(255,255,255,0.1)"/>
+                                <rect x="345" y="206" width="30" height="23" rx="4" fill="#30d158"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-meta">
+                            <span class="project-tag">Backend Microservice</span>
+                            <span class="project-stars"><i data-lucide="star"></i> 55</span>
+                        </div>
+                        <h3 class="project-title">FlowChat Real-time Engine</h3>
+                        <p class="project-description">
+                            A highly optimized websocket-driven instant messaging server. Written in Node.js and scaling with Redis Pub/Sub mechanism and MongoDB message persistence.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-badge">Node.js</span>
+                            <span class="tech-badge">Socket.io</span>
+                            <span class="tech-badge">Redis</span>
+                            <span class="tech-badge">MongoDB</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com" target="_blank" class="project-link-btn" aria-label="GitHub Repo">
+                                <i data-lucide="github"></i>
+                                <span>Code</span>
+                            </a>
+                            <a href="https://example.com" target="_blank" class="project-link-btn" aria-label="Live Demo">
+                                <i data-lucide="external-link"></i>
+                                <span>Live Demo</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Work Experience Timeline Section -->
+    <section id="timeline" class="timeline-section">
+        <div class="container">
+            <div class="section-header reveal-on-scroll">
+                <span class="section-tagline">My Journey</span>
+                <h2 class="section-title">Professional Milestones</h2>
+                <div class="section-underline"></div>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-line"></div>
+
+                <!-- Timeline Item 1 -->
+                <div class="timeline-item reveal-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content glass">
+                        <span class="timeline-date">2024 - PRESENT</span>
+                        <h3 class="timeline-role">Senior Fullstack Developer</h3>
+                        <h4 class="timeline-company">TechFlow Solutions</h4>
+                        <p class="timeline-text">
+                            Lead a team of 4 developers building high-traffic enterprise solutions. Migrated legacy backends to microservice architectures, reducing API latency by 45%. Oversaw containerization processes and CI/CD automation pipelines.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 2 -->
+                <div class="timeline-item reveal-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content glass">
+                        <span class="timeline-date">2022 - 2024</span>
+                        <h3 class="timeline-role">Fullstack Engineer</h3>
+                        <h4 class="timeline-company">AppForge Studio</h4>
+                        <p class="timeline-text">
+                            Developed and maintained core web applications using Laravel, MySQL, and React. Architected secure third-party payment integrations (Stripe, Midtrans) and optimized database indexes to support 10k+ daily transactions.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 3 -->
+                <div class="timeline-item reveal-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content glass">
+                        <span class="timeline-date">2020 - 2022</span>
+                        <h3 class="timeline-role">Web Developer</h3>
+                        <h4 class="timeline-company">PixelCraft Agency</h4>
+                        <p class="timeline-text">
+                            Designed responsive landing pages, corporate portals, and custom content management systems. Cooperated closely with UI/UX designers to translate Figma design templates into clean, semantic HTML, CSS, and jQuery.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="section-header reveal-on-scroll">
+                <span class="section-tagline">Get In Touch</span>
+                <h2 class="section-title">Let's Work Together</h2>
+                <div class="section-underline"></div>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-info reveal-on-scroll">
+                    <h3 class="contact-subtitle">Connection Channels</h3>
+                    <p class="contact-text">
+                        Have an exciting project in mind, need a freelance fullstack developer, or just want to chat about system architectures? Drop a line in the form or connect through direct contact.
+                    </p>
+
+                    <div class="contact-details">
+                        <div class="contact-detail-card glass" id="copy-email-btn">
+                            <div class="detail-icon"><i data-lucide="mail"></i></div>
+                            <div class="detail-content">
+                                <span class="detail-label">Email Address</span>
+                                <span class="detail-value">hello@yourdomain.com</span>
+                            </div>
+                            <button class="copy-btn" aria-label="Copy Email"><i data-lucide="copy"></i></button>
+                        </div>
+
+                        <div class="contact-detail-card glass">
+                            <div class="detail-icon"><i data-lucide="phone"></i></div>
+                            <div class="detail-content">
+                                <span class="detail-label">Phone Call / WA</span>
+                                <span class="detail-value">+62 812-3456-7890</span>
+                            </div>
+                        </div>
+
+                        <div class="contact-detail-card glass">
+                            <div class="detail-icon"><i data-lucide="map-pin"></i></div>
+                            <div class="detail-content">
+                                <span class="detail-label">Office Base</span>
+                                <span class="detail-value">Jakarta, Indonesia</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form-wrapper reveal-on-scroll">
+                    <form id="contact-form" class="contact-form glass" novalidate>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Your Name</label>
+                                <div class="input-wrapper">
+                                    <i data-lucide="user" class="input-icon"></i>
+                                    <input type="text" id="name" name="name" placeholder="John Doe" required>
+                                </div>
+                                <span class="error-msg" id="name-error">Please fill in your name.</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <div class="input-wrapper">
+                                    <i data-lucide="at-sign" class="input-icon"></i>
+                                    <input type="email" id="email" name="email" placeholder="john@example.com" required>
+                                </div>
+                                <span class="error-msg" id="email-error">Please enter a valid email address.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="subject">Subject</label>
+                                <div class="input-wrapper">
+                                    <i data-lucide="help-circle" class="input-icon"></i>
+                                    <input type="text" id="subject" name="subject" placeholder="Project Inquiry" required>
+                                </div>
+                                <span class="error-msg" id="subject-error">Please enter a subject.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="message">Message Body</label>
+                                <div class="input-wrapper">
+                                    <textarea id="message" name="message" rows="5" placeholder="Tell me about your project detail..." required></textarea>
+                                </div>
+                                <span class="error-msg" id="message-error">Please write your message.</span>
+                            </div>
+                        </div>
+
+                        <button type="submit" id="submit-btn" class="btn btn-primary form-submit">
+                            <span class="btn-text">Send Message</span>
+                            <i data-lucide="send" class="btn-icon"></i>
+                            <div class="btn-spinner"></div>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <span class="logo">&lt;Fullstack.Dev /&gt;</span>
+                <p class="footer-desc">Crafting robust backend logic and elegant frontends for exceptional user experiences.</p>
+            </div>
+            
+            <div class="footer-links-grid">
+                <div class="footer-column">
+                    <h4 class="footer-heading">Navigation</h4>
+                    <ul class="footer-list">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#skills">Skills</a></li>
+                        <li><a href="#projects">Projects</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4 class="footer-heading">Legals</h4>
+                    <ul class="footer-list">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Use</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Fullstack.Dev. All rights reserved. Created with passion.</p>
+            <a href="#home" class="scroll-top-btn" aria-label="Scroll to top"><i data-lucide="arrow-up"></i></a>
+        </div>
+    </footer>
+
+    <!-- Custom Script File -->
+    <script src="script.js"></script>
+</body>
+</html>
