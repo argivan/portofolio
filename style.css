@@ -441,11 +441,13 @@ button {
 
 .hero-title {
     font-family: var(--font-heading);
-    font-size: 3.5rem;
+    font-size: clamp(1.75rem, 5vw + 0.5rem, 3.5rem);
     font-weight: 800;
     line-height: 1.15;
     margin-bottom: 20px;
     letter-spacing: -0.02em;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .text-gradient {
@@ -459,6 +461,8 @@ button {
     color: var(--text-secondary);
     margin-bottom: 24px;
     max-width: 580px;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .typing-container {
@@ -505,10 +509,16 @@ button {
     width: 46px;
     height: 46px;
     border-radius: 50%;
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--text-primary);
     transition: all var(--transition-fast);
+}
+
+.light-theme .social-link {
+    background: rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: var(--text-secondary);
 }
 
 .social-link:hover {
@@ -570,6 +580,13 @@ button {
     font-size: 0.85rem;
     overflow-x: auto;
     background: var(--code-bg);
+    -webkit-overflow-scrolling: touch;
+}
+
+.card-body pre {
+    white-space: pre;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .code-key { color: #5ac8fa; }
@@ -1575,26 +1592,48 @@ section {
     }
 
     .hero-title {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
     }
 
     .hero-subtitle {
-        font-size: 1rem;
+        font-size: 0.95rem;
     }
 
     .typing-container {
-        font-size: 1rem;
+        font-size: 0.95rem;
         flex-wrap: wrap;
         justify-content: center;
     }
 
+    .hero-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+        align-items: center;
+    }
+
+    .hero-actions .btn {
+        width: 100%;
+        max-width: 300px;
+        justify-content: center;
+    }
+
     .hero-card {
-        max-width: 340px;
+        max-width: 100%;
     }
 
     .card-body {
-        padding: 16px;
-        font-size: 0.75rem;
+        padding: 14px;
+        font-size: 0.7rem;
+    }
+
+    .card-body pre {
+        font-size: 0.7rem;
+    }
+
+    .social-link {
+        width: 42px;
+        height: 42px;
     }
 
     .scroll-down-indicator {
@@ -1805,11 +1844,11 @@ section {
     }
 
     .hero-title {
-        font-size: 2rem;
+        font-size: 1.8rem;
     }
 
     .hero-subtitle {
-        font-size: 0.95rem;
+        font-size: 0.9rem;
     }
 
     .hero-actions {
@@ -1821,6 +1860,17 @@ section {
     .hero-actions .btn {
         width: 100%;
         justify-content: center;
+        padding: 12px 24px;
+        font-size: 0.9rem;
+    }
+
+    .card-body {
+        padding: 12px;
+        font-size: 0.65rem;
+    }
+
+    .card-body pre {
+        font-size: 0.65rem;
     }
 
     .hero-card {
