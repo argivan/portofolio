@@ -85,6 +85,7 @@ html {
     scroll-behavior: smooth;
     scroll-padding-top: 80px;
     overflow-x: hidden;
+    width: 100%;
 }
 
 body {
@@ -93,7 +94,9 @@ body {
     font-family: var(--font-body);
     line-height: 1.6;
     overflow-x: hidden;
-    max-width: 100vw;
+    width: 100%;
+    max-width: 100%;
+    position: relative;
     transition: background-color var(--transition-normal), color var(--transition-normal);
 }
 
@@ -120,6 +123,17 @@ button {
    AMBIENT GLOW EFFECTS & VISUALS
    ========================================================================== */
 
+.ambient-glow-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: -2;
+}
+
 .ambient-glow {
     position: absolute;
     width: 400px;
@@ -128,7 +142,6 @@ button {
     filter: blur(150px);
     opacity: 0.4;
     pointer-events: none;
-    z-index: -2;
     animation: pulse-glow 10s infinite alternate;
     transition: opacity var(--transition-normal);
 }
@@ -323,7 +336,7 @@ button {
 .mobile-menu {
     position: fixed;
     top: 0;
-    right: -100%;
+    right: 0;
     width: 80%;
     max-width: 400px;
     height: 100vh;
@@ -335,11 +348,14 @@ button {
     flex-direction: column;
     gap: 40px;
     box-shadow: var(--shadow-lg);
-    transition: right var(--transition-normal);
+    transform: translateX(100%);
+    visibility: hidden;
+    transition: transform var(--transition-normal), visibility var(--transition-normal);
 }
 
 .mobile-menu.active {
-    right: 0;
+    transform: translateX(0);
+    visibility: visible;
 }
 
 .mobile-menu-header {
@@ -486,6 +502,8 @@ button {
     font-size: 1.15rem;
     margin-bottom: 40px;
     font-weight: 600;
+    flex-wrap: wrap;
+    max-width: 100%;
 }
 
 .typing-label {
@@ -494,6 +512,7 @@ button {
 
 .typed-text {
     color: var(--accent-primary);
+    word-break: break-word;
 }
 
 .cursor {
@@ -509,6 +528,8 @@ button {
     display: flex;
     gap: 16px;
     margin-bottom: 40px;
+    flex-wrap: wrap;
+    max-width: 100%;
 }
 
 .hero-socials {
