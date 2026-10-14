@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ArrowRight, Mail, Database, Server, Layout, ShieldCheck } from "lucide-react";
+import gsap from "gsap";
 
 const GithubIcon = ({ className }: { className?: string }) => (
   <svg
@@ -46,6 +47,7 @@ const FOCUS_AREAS = [
 
 export function HeroSection() {
   const [roleIndex, setRoleIndex] = useState(0);
+  const containerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -54,20 +56,45 @@ export function HeroSection() {
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    if (!containerRef.current) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const ctx = gsap.context(() => {
+      gsap.from(".hero-anim-item", {
+        y: 28,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: "power3.out",
+      });
+
+      gsap.from(".hero-card-anim", {
+        y: 35,
+        opacity: 0,
+        duration: 1,
+        delay: 0.25,
+        ease: "power3.out",
+      });
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="home" className="relative pt-32 pb-20 md:pt-40 md:pb-28">
+    <section ref={containerRef} id="home" className="relative pt-32 pb-20 md:pt-40 md:pb-28">
       <div className="mx-auto max-w-6xl px-6">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center">
           {/* Left Column: Asymmetric Hero Introduction */}
           <div className="lg:col-span-7 flex flex-col items-start text-left">
-            {/* Status badge: Clean flat border, no pulsing neon glow */}
-            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3.5 py-1.5 text-xs font-mono text-muted-foreground">
+            {/* Status badge */}
+            <div className="hero-anim-item inline-flex items-center gap-2 rounded-full border border-border bg-card px-3.5 py-1.5 text-xs font-mono text-muted-foreground">
               <span className="h-2 w-2 rounded-full bg-primary" />
               <span>Available for freelance projects & full-time roles</span>
             </div>
 
-            {/* Headline: Clean typography, no gradient text, vermilion accent */}
-            <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl md:leading-[1.1]">
+            {/* Headline */}
+            <h1 className="hero-anim-item mt-6 text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl md:leading-[1.1]">
               Building reliable web apps &amp;{" "}
               <span className="text-primary underline decoration-primary/30 decoration-2 underline-offset-8">
                 scalable backend
@@ -75,23 +102,23 @@ export function HeroSection() {
               systems.
             </h1>
 
-            {/* Plain, specific copy without generic fluff */}
-            <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
+            {/* Plain, specific copy */}
+            <p className="hero-anim-item mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
               I am Argi Maulana, a Fullstack Developer building production systems with
               Laravel, Node.js, Go, React, Next.js, and PostgreSQL. I design clean database schemas,
               resilient APIs, and fast, predictable user interfaces.
             </p>
 
             {/* Focus area pill */}
-            <div className="mt-5 flex items-center gap-2 font-mono text-xs text-muted-foreground">
+            <div className="hero-anim-item mt-5 flex items-center gap-2 font-mono text-xs text-muted-foreground">
               <span className="text-primary font-bold">Focus:</span>
-              <span className="rounded border border-border bg-card px-2.5 py-1 text-foreground">
+              <span className="rounded border border-border bg-card px-2.5 py-1 text-foreground transition-all duration-300">
                 {FOCUS_AREAS[roleIndex]}
               </span>
             </div>
 
             {/* CTAs */}
-            <div className="mt-8 flex flex-wrap items-center gap-4">
+            <div className="hero-anim-item mt-8 flex flex-wrap items-center gap-4">
               <a
                 href="#projects"
                 data-magnetic
@@ -111,7 +138,7 @@ export function HeroSection() {
             </div>
 
             {/* Social Icons */}
-            <div className="mt-8 flex items-center gap-3">
+            <div className="hero-anim-item mt-8 flex items-center gap-3">
               <a
                 href="https://github.com"
                 /* TODO: replace with user personal GitHub profile URL if different */
@@ -148,8 +175,8 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Right Column: Real Stack & Core Competencies Table (Replaces the fake macOS JSON card) */}
-          <div className="lg:col-span-5">
+          {/* Right Column: Real Stack & Core Competencies Table */}
+          <div className="lg:col-span-5 hero-card-anim">
             <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
               <div className="flex items-center justify-between border-b border-border pb-4">
                 <div>

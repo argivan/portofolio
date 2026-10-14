@@ -1,45 +1,128 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Briefcase, CheckCircle2, Zap, Users, Download, ArrowRight } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const STATS = [
   {
     icon: Briefcase,
-    value: "5+",
+    target: 5,
+    prefix: "",
+    suffix: "+",
     label: "Years Experience",
     subtext: "Enterprise & startup web apps",
   },
   {
     icon: CheckCircle2,
-    value: "50+",
+    target: 50,
+    prefix: "",
+    suffix: "+",
     label: "Projects Completed",
     subtext: "Fullstack, API & frontend builds",
   },
   {
     icon: Zap,
-    value: "<100ms",
+    target: 99,
+    prefix: "<",
+    suffix: "ms",
     label: "Average API Latency",
     subtext: "Optimized queries & caching",
   },
   {
     icon: Users,
-    value: "20+",
+    target: 20,
+    prefix: "",
+    suffix: "+",
     label: "Clients & Teams",
     subtext: "Delivering reliable deliverables",
   },
 ];
 
 export function AboutSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const countRefs = useRef<(HTMLSpanElement | null)[]>([]);
+
+  useEffect(() => {
+    if (!sectionRef.current) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const ctx = gsap.context(() => {
+      // Reveal section header
+      gsap.from(".about-header", {
+        y: 35,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+        },
+      });
+
+      // Reveal narrative copy
+      gsap.from(".about-narrative", {
+        y: 40,
+        opacity: 0,
+        duration: 0.9,
+        delay: 0.1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 75%",
+        },
+      });
+
+      // Reveal and stagger stat cards
+      gsap.from(".about-stat-card", {
+        y: 45,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.12,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".about-stats-container",
+          start: "top 85%",
+        },
+      });
+
+      // Animate stat numbers counting up
+      STATS.forEach((stat, index) => {
+        const el = countRefs.current[index];
+        if (!el) return;
+        const obj = { val: 0 };
+        gsap.to(obj, {
+          val: stat.target,
+          duration: 1.8,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 85%",
+          },
+          onUpdate: () => {
+            el.textContent = `${stat.prefix}${Math.round(obj.val)}${stat.suffix}`;
+          },
+        });
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   const handleDownloadCV = () => {
     /* TODO: replace with link to user actual resume/CV PDF file in /public/cv.pdf */
     alert("CV download link placeholder. Please place your resume file in /public/cv.pdf.");
   };
 
   return (
-    <section id="about" className="py-20 md:py-28 border-t border-border">
+    <section ref={sectionRef} id="about" className="py-20 md:py-28 border-t border-border">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="flex flex-col items-start">
+        <div className="about-header flex flex-col items-start">
           <span className="font-mono text-xs uppercase tracking-widest text-primary font-semibold">
             About Me
           </span>
@@ -51,7 +134,7 @@ export function AboutSection() {
 
         <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-start">
           {/* Narrative Info */}
-          <div className="lg:col-span-7 space-y-5 text-base leading-relaxed text-muted-foreground">
+          <div className="about-narrative lg:col-span-7 space-y-5 text-base leading-relaxed text-muted-foreground">
             <p>
               I am a fullstack web developer focusing on scalable web applications and clean architecture.
               My core background is anchored in server-side engineering with PHP Laravel, Node.js, and Go,
@@ -89,20 +172,26 @@ export function AboutSection() {
             </div>
           </div>
 
-          {/* Clean Stats Grid (Flat cards, 1px border, no glassmorphism) */}
-          <div className="lg:col-span-5 grid grid-cols-2 gap-4">
-            {STATS.map((stat) => {
+          {/* Clean Stats Grid with GSAP count-up */}
+          <div className="about-stats-container lg:col-span-5 grid grid-cols-2 gap-4">
+            {STATS.map((stat, i) => {
               const Icon = stat.icon;
               return (
                 <div
                   key={stat.label}
-                  className="rounded-xl border border-border bg-card p-5 transition-colors hover:border-border/80"
+                  className="about-stat-card rounded-xl border border-border bg-card p-5 transition-colors hover:border-border/80"
                 >
                   <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-secondary/50 text-primary">
                     <Icon className="h-4 w-4" />
                   </div>
                   <div className="mt-4 text-2xl font-extrabold tracking-tight text-foreground md:text-3xl font-mono">
-                    {stat.value}
+                    <span
+                      ref={(el) => {
+                        countRefs.current[i] = el;
+                      }}
+                    >
+                      {stat.prefix}0{stat.suffix}
+                    </span>
                   </div>
                   <div className="mt-1 text-xs font-bold text-foreground">
                     {stat.label}

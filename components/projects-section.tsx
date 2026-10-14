@@ -1,7 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
-import { Star, ExternalLink, Layers, ArrowUpRight } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import { Star, Layers, ArrowUpRight } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const GithubIcon = ({ className }: { className?: string }) => (
   <svg
@@ -81,6 +87,54 @@ const CATEGORIES: { id: ProjectCategory; label: string }[] = [
 
 export function ProjectsSection() {
   const [activeFilter, setActiveFilter] = useState<ProjectCategory>("all");
+  const sectionRef = useRef<HTMLElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!sectionRef.current) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const ctx = gsap.context(() => {
+      // Header and filters reveal
+      gsap.from(".projects-header-anim", {
+        y: 35,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+        },
+      });
+
+      gsap.from(".projects-filter-anim", {
+        y: 20,
+        opacity: 0,
+        duration: 0.7,
+        delay: 0.1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 78%",
+        },
+      });
+
+      // Cards staggered entrance
+      gsap.from(".project-card-anim", {
+        y: 45,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: gridRef.current,
+          start: "top 82%",
+        },
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, [activeFilter]);
 
   const filteredProjects =
     activeFilter === "all"
@@ -88,9 +142,9 @@ export function ProjectsSection() {
       : PROJECTS_DATA.filter((p) => p.category === activeFilter);
 
   return (
-    <section id="projects" className="py-20 md:py-28 border-t border-border">
+    <section ref={sectionRef} id="projects" className="py-20 md:py-28 border-t border-border">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="flex flex-col items-start">
+        <div className="projects-header-anim flex flex-col items-start">
           <span className="font-mono text-xs uppercase tracking-widest text-primary font-semibold">
             Selected Work
           </span>
@@ -101,7 +155,7 @@ export function ProjectsSection() {
         </div>
 
         {/* Filter buttons */}
-        <div className="mt-8 flex flex-wrap gap-2">
+        <div className="projects-filter-anim mt-8 flex flex-wrap gap-2">
           {CATEGORIES.map((cat) => (
             <button
               key={cat.id}
@@ -118,12 +172,15 @@ export function ProjectsSection() {
         </div>
 
         {/* Projects Grid */}
-        <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div
+          ref={gridRef}
+          className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+        >
           {filteredProjects.map((project) => (
             <div
               key={project.id}
               data-magnetic
-              className="group flex flex-col justify-between rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:border-primary/50"
+              className="project-card-anim group flex flex-col justify-between rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:border-primary/50"
             >
               <div>
                 {/* Card Header */}
@@ -137,7 +194,7 @@ export function ProjectsSection() {
                   </div>
                 </div>
 
-                {/* Minimalist Visual Wireframe (No neon glows, flat surfaces with warm borders) */}
+                {/* Minimalist Visual Wireframe */}
                 <div className="mt-5 rounded-lg border border-border/80 bg-background/80 p-4">
                   <div className="flex items-center gap-2 border-b border-border/60 pb-2.5">
                     <div className="h-2 w-2 rounded-full bg-primary" />

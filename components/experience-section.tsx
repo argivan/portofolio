@@ -1,7 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Briefcase } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 interface TimelineItem {
   period: string;
@@ -37,10 +43,66 @@ const EXPERIENCES: TimelineItem[] = [
 ];
 
 export function ExperienceSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const itemsRef = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    if (!sectionRef.current) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const ctx = gsap.context(() => {
+      // Header reveal
+      gsap.from(".experience-header-anim", {
+        y: 35,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+        },
+      });
+
+      // Sequential timeline items entrance on scroll
+      itemsRef.current.forEach((el) => {
+        if (!el) return;
+        const dot = el.querySelector(".timeline-dot-anim");
+        const card = el.querySelector(".timeline-card-anim");
+
+        if (dot) {
+          gsap.from(dot, {
+            scale: 0,
+            duration: 0.5,
+            ease: "back.out(2)",
+            scrollTrigger: {
+              trigger: el,
+              start: "top 85%",
+            },
+          });
+        }
+
+        if (card) {
+          gsap.from(card, {
+            x: -25,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: el,
+              start: "top 85%",
+            },
+          });
+        }
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="timeline" className="py-20 md:py-28 border-t border-border">
+    <section ref={sectionRef} id="timeline" className="py-20 md:py-28 border-t border-border">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="flex flex-col items-start">
+        <div className="experience-header-anim flex flex-col items-start">
           <span className="font-mono text-xs uppercase tracking-widest text-primary font-semibold">
             Career Progression
           </span>
@@ -51,16 +113,22 @@ export function ExperienceSection() {
         </div>
 
         <div className="mt-12 relative border-l border-border ml-3 md:ml-4 space-y-10">
-          {EXPERIENCES.map((exp) => (
-            <div key={exp.company} className="relative pl-8 md:pl-10">
+          {EXPERIENCES.map((exp, index) => (
+            <div
+              key={exp.company}
+              ref={(el) => {
+                itemsRef.current[index] = el;
+              }}
+              className="relative pl-8 md:pl-10"
+            >
               {/* Timeline marker */}
               <div
-                className={`absolute -left-[9px] top-1.5 flex h-4 w-4 items-center justify-center rounded-full border-2 border-background ${
+                className={`timeline-dot-anim absolute -left-[9px] top-1.5 flex h-4 w-4 items-center justify-center rounded-full border-2 border-background ${
                   exp.isCurrent ? "bg-primary" : "bg-muted-foreground"
                 }`}
               />
 
-              <div className="rounded-xl border border-border bg-card p-6 transition-colors hover:border-border/80">
+              <div className="timeline-card-anim rounded-xl border border-border bg-card p-6 transition-colors hover:border-border/80">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <span className="font-mono text-xs font-semibold text-primary">
                     {exp.period}

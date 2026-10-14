@@ -1,7 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Mail, Phone, MapPin, Send, CheckCircle2, Copy, Check } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export function ContactForm() {
   const [formData, setFormData] = useState({
@@ -13,6 +19,54 @@ export function ContactForm() {
   const [copied, setCopied] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (!sectionRef.current) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const ctx = gsap.context(() => {
+      // Header reveal
+      gsap.from(".inquiry-header-anim", {
+        y: 35,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+        },
+      });
+
+      // Left direct channels cards
+      gsap.from(".inquiry-channel-card", {
+        y: 35,
+        opacity: 0,
+        duration: 0.7,
+        stagger: 0.1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".inquiry-channels-container",
+          start: "top 85%",
+        },
+      });
+
+      // Right form
+      gsap.from(".inquiry-form-card", {
+        y: 40,
+        opacity: 0,
+        duration: 0.85,
+        delay: 0.15,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".inquiry-form-card",
+          start: "top 85%",
+        },
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const email = "hello@argimaulana.my.id";
   /* TODO: replace with user real phone/whatsapp number */
@@ -39,9 +93,9 @@ export function ContactForm() {
   };
 
   return (
-    <section id="inquiry" className="py-20 md:py-28 border-t border-border">
+    <section ref={sectionRef} id="inquiry" className="py-20 md:py-28 border-t border-border">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="flex flex-col items-start">
+        <div className="inquiry-header-anim flex flex-col items-start">
           <span className="font-mono text-xs uppercase tracking-widest text-primary font-semibold">
             Inquiries
           </span>
@@ -53,7 +107,7 @@ export function ContactForm() {
 
         <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-12">
           {/* Direct Channels */}
-          <div className="lg:col-span-5 space-y-4">
+          <div className="inquiry-channels-container lg:col-span-5 space-y-4">
             <p className="text-sm leading-relaxed text-muted-foreground">
               Have a project in mind, need architecture consulting, or interested in collaborating?
               Reach out directly or send a message using the form.
@@ -62,7 +116,7 @@ export function ContactForm() {
             <div
               onClick={handleCopyEmail}
               data-magnetic
-              className="group flex cursor-pointer items-center justify-between rounded-xl border border-border bg-card p-4 transition-colors hover:border-primary/50"
+              className="inquiry-channel-card group flex cursor-pointer items-center justify-between rounded-xl border border-border bg-card p-4 transition-colors hover:border-primary/50"
             >
               <div className="flex items-center gap-3">
                 <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-secondary/50 text-primary">
@@ -86,7 +140,7 @@ export function ContactForm() {
               </button>
             </div>
 
-            <div className="flex items-center gap-3 rounded-xl border border-border bg-card p-4">
+            <div className="inquiry-channel-card flex items-center gap-3 rounded-xl border border-border bg-card p-4">
               <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-secondary/50 text-primary">
                 <Phone className="h-4 w-4" />
               </div>
@@ -100,7 +154,7 @@ export function ContactForm() {
               </div>
             </div>
 
-            <div className="flex items-center gap-3 rounded-xl border border-border bg-card p-4">
+            <div className="inquiry-channel-card flex items-center gap-3 rounded-xl border border-border bg-card p-4">
               <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-secondary/50 text-primary">
                 <MapPin className="h-4 w-4" />
               </div>
@@ -119,7 +173,7 @@ export function ContactForm() {
           <div className="lg:col-span-7">
             <form
               onSubmit={handleSubmit}
-              className="rounded-2xl border border-border bg-card p-6 md:p-8"
+              className="inquiry-form-card rounded-2xl border border-border bg-card p-6 md:p-8"
             >
               {submitted && (
                 <div className="mb-6 flex items-center gap-2.5 rounded-lg border border-primary/40 bg-primary/10 p-3.5 text-xs font-medium text-foreground">

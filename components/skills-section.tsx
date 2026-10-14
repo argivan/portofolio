@@ -1,7 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Code2, Braces, Palette, Terminal, Server, Cpu, Database, Box, Cloud } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 type SkillCategory = "all" | "frontend" | "backend" | "devops";
 
@@ -88,6 +94,67 @@ const CATEGORIES: { id: SkillCategory; label: string }[] = [
 
 export function SkillsSection() {
   const [activeTab, setActiveTab] = useState<SkillCategory>("all");
+  const sectionRef = useRef<HTMLElement>(null);
+  const cardsContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!sectionRef.current) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const ctx = gsap.context(() => {
+      // Header and tabs reveal
+      gsap.from(".skills-header-anim", {
+        y: 35,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+        },
+      });
+
+      gsap.from(".skills-tabs-anim", {
+        y: 20,
+        opacity: 0,
+        duration: 0.7,
+        delay: 0.1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 78%",
+        },
+      });
+
+      // Cards stagger reveal and fill animation
+      gsap.from(".skill-card-item", {
+        y: 40,
+        opacity: 0,
+        duration: 0.7,
+        stagger: 0.08,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: cardsContainerRef.current,
+          start: "top 82%",
+        },
+      });
+
+      // Animate progress bars from 0 to full width
+      gsap.from(".skill-progress-bar-fill", {
+        scaleX: 0,
+        transformOrigin: "left center",
+        duration: 1.2,
+        stagger: 0.08,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: cardsContainerRef.current,
+          start: "top 82%",
+        },
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, [activeTab]);
 
   const filteredSkills =
     activeTab === "all"
@@ -95,9 +162,9 @@ export function SkillsSection() {
       : SKILLS_DATA.filter((s) => s.category === activeTab);
 
   return (
-    <section id="skills" className="py-20 md:py-28 border-t border-border">
+    <section ref={sectionRef} id="skills" className="py-20 md:py-28 border-t border-border">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="flex flex-col items-start">
+        <div className="skills-header-anim flex flex-col items-start">
           <span className="font-mono text-xs uppercase tracking-widest text-primary font-semibold">
             Technical Arsenal
           </span>
@@ -108,7 +175,7 @@ export function SkillsSection() {
         </div>
 
         {/* Filter Tabs */}
-        <div className="mt-8 flex flex-wrap gap-2">
+        <div className="skills-tabs-anim mt-8 flex flex-wrap gap-2">
           {CATEGORIES.map((cat) => (
             <button
               key={cat.id}
@@ -125,13 +192,16 @@ export function SkillsSection() {
         </div>
 
         {/* Skills Grid */}
-        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div
+          ref={cardsContainerRef}
+          className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
+        >
           {filteredSkills.map((skill) => {
             const Icon = skill.icon;
             return (
               <div
                 key={skill.name}
-                className="group rounded-xl border border-border bg-card p-5 transition-colors hover:border-primary/50"
+                className="skill-card-item group rounded-xl border border-border bg-card p-5 transition-colors hover:border-primary/50"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -153,7 +223,7 @@ export function SkillsSection() {
 
                 <div className="mt-4 h-1.5 w-full rounded-full bg-secondary overflow-hidden">
                   <div
-                    className="h-full rounded-full bg-primary transition-all duration-500 ease-out"
+                    className="skill-progress-bar-fill h-full rounded-full bg-primary"
                     style={{ width: `${skill.proficiency}%` }}
                   />
                 </div>
