@@ -120,7 +120,7 @@ export function AboutSection() {
   };
 
   return (
-    <section ref={sectionRef} id="about" className="py-20 md:py-28 border-t border-border">
+    <section ref={sectionRef} id="about" className="py-20 md:py-28">
       <div className="mx-auto max-w-6xl px-6">
         <div className="about-header flex flex-col items-start">
           <span className="font-mono text-xs uppercase tracking-widest text-primary font-semibold">

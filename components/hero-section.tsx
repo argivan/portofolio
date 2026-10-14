@@ -1,8 +1,13 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { ArrowRight, Mail, Database, Server, Layout, ShieldCheck } from "lucide-react";
+import { ArrowRight, Mail, Database, Server, Layout, ShieldCheck, ChevronDown } from "lucide-react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const GithubIcon = ({ className }: { className?: string }) => (
   <svg
@@ -48,6 +53,7 @@ const FOCUS_AREAS = [
 export function HeroSection() {
   const [roleIndex, setRoleIndex] = useState(0);
   const containerRef = useRef<HTMLElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -57,15 +63,16 @@ export function HeroSection() {
   }, []);
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || !contentRef.current) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const ctx = gsap.context(() => {
+      // 1. Entrance staggered animation on load
       gsap.from(".hero-anim-item", {
         y: 28,
         opacity: 0,
         duration: 0.8,
-        stagger: 0.1,
+        stagger: 0.08,
         ease: "power3.out",
       });
 
@@ -73,8 +80,23 @@ export function HeroSection() {
         y: 35,
         opacity: 0,
         duration: 1,
-        delay: 0.25,
+        delay: 0.2,
         ease: "power3.out",
+      });
+
+      // 2. Curtain-reveal Parallax: As user scrolls down and Screen 2 (About) slides over Hero,
+      // Hero smoothly scales down, dims, and drifts upward slightly.
+      gsap.to(contentRef.current, {
+        scale: 0.93,
+        opacity: 0.25,
+        y: -60,
+        ease: "none",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 0.5,
+        },
       });
     }, containerRef);
 
@@ -82,8 +104,12 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section ref={containerRef} id="home" className="relative pt-32 pb-20 md:pt-40 md:pb-28">
-      <div className="mx-auto max-w-6xl px-6">
+    <section
+      ref={containerRef}
+      id="home"
+      className="sticky top-0 z-0 flex min-h-[100svh] w-full flex-col justify-center overflow-hidden bg-background pt-24 pb-12 md:h-screen md:pt-28 md:pb-16"
+    >
+      <div ref={contentRef} className="mx-auto w-full max-w-6xl px-6 transition-transform">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center">
           {/* Left Column: Asymmetric Hero Introduction */}
           <div className="lg:col-span-7 flex flex-col items-start text-left">
@@ -103,14 +129,14 @@ export function HeroSection() {
             </h1>
 
             {/* Plain, specific copy */}
-            <p className="hero-anim-item mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
+            <p className="hero-anim-item mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
               I am Argi Maulana, a Fullstack Developer building production systems with
               Laravel, Node.js, Go, React, Next.js, and PostgreSQL. I design clean database schemas,
               resilient APIs, and fast, predictable user interfaces.
             </p>
 
             {/* Focus area pill */}
-            <div className="hero-anim-item mt-5 flex items-center gap-2 font-mono text-xs text-muted-foreground">
+            <div className="hero-anim-item mt-4 flex items-center gap-2 font-mono text-xs text-muted-foreground">
               <span className="text-primary font-bold">Focus:</span>
               <span className="rounded border border-border bg-card px-2.5 py-1 text-foreground transition-all duration-300">
                 {FOCUS_AREAS[roleIndex]}
@@ -118,7 +144,7 @@ export function HeroSection() {
             </div>
 
             {/* CTAs */}
-            <div className="hero-anim-item mt-8 flex flex-wrap items-center gap-4">
+            <div className="hero-anim-item mt-7 flex flex-wrap items-center gap-4">
               <a
                 href="#projects"
                 data-magnetic
@@ -129,16 +155,16 @@ export function HeroSection() {
               </a>
 
               <a
-                href="#contact"
+                href="#about"
                 data-magnetic
                 className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-7 py-3.5 text-sm font-medium text-foreground transition-colors hover:border-primary hover:text-primary"
               >
-                <span>Contact Me</span>
+                <span>Explore About Me</span>
               </a>
             </div>
 
             {/* Social Icons */}
-            <div className="hero-anim-item mt-8 flex items-center gap-3">
+            <div className="hero-anim-item mt-7 flex items-center gap-3">
               <a
                 href="https://github.com"
                 /* TODO: replace with user personal GitHub profile URL if different */
@@ -192,7 +218,7 @@ export function HeroSection() {
                 </div>
               </div>
 
-              <div className="mt-4 space-y-4">
+              <div className="mt-4 space-y-3.5">
                 <div className="flex items-start gap-3 rounded-lg border border-border/60 bg-background/50 p-3">
                   <Server className="mt-0.5 h-4 w-4 text-primary shrink-0" />
                   <div>
@@ -250,6 +276,16 @@ export function HeroSection() {
           </div>
         </div>
       </div>
+
+      {/* Scroll Down Visual Indicator */}
+      <a
+        href="#about"
+        aria-label="Scroll down to About section"
+        className="hero-anim-item hidden md:flex absolute bottom-6 left-1/2 -translate-x-1/2 flex-col items-center gap-1.5 text-muted-foreground/80 hover:text-primary transition-colors cursor-pointer"
+      >
+        <span className="font-mono text-[10px] uppercase tracking-widest">Scroll to reveal</span>
+        <ChevronDown className="h-4 w-4 animate-bounce text-primary" />
+      </a>
     </section>
   );
 }
